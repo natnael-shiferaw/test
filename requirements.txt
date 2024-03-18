@@ -1,0 +1,10 @@
+Flask
+flask-wtf
+flask-sqlalchemy
+flask-login
+flask-bcrypt
+sqlalchemy
+WTForms
+WTForms
+consultor
+Redberry
