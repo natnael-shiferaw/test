@@ -12,21 +12,29 @@ def home_agent():
 
 @agents.route("/agents/register", methods=['GET', 'POST'])
 def register():
-  #if current_user.is_authenticated:
-    #return redirect(url_for('home_agent'))
+  if current_user.is_authenticated:
+    return redirect(url_for('home_agent'))
   form = RegistrationForm()
   if form.validate_on_submit():
-      flash(f'Account created for {form.username.data}!', 'success')
-      return redirect(url_for('home'))
+      hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+      agent = Agent(username=form.username.data, email=form.email.data, password=hashed_password)
+      db.session.add(agent)
+      db.session.commit()
+      flash('Your account has been created! You are now able to log in', 'success')
+      return redirect(url_for('agents.login'))
   return render_template('register.html', title='Register', form=form)
 
 @agents.route("/agents/login", methods=['GET', 'POST'])
 def login():
+      if current_user.is_authenticated:
+          return redirect(url_for('agents.home_agent'))
       form = LoginForm()
       if form.validate_on_submit():
-          if form.email.data == 'admin@blog.com' and form.password.data == 'password':
-              flash('You have been logged in!', 'success')
-              return redirect(url_for('home'))
+          agent = Agent.query.filter_by(email=form.email.data).first()
+          if agent and bcrypt.check_password_hash(agent.password, form.password.data):
+              login_user(agent, remember=form.remember.data)
+              next_page = request.args.get('next')
+              return redirect(next_page) if next_page else redirect(url_for('agents.home_agent'))
           else:
-              flash('Login Unsuccessful. Please check username and password', 'danger')
+              flash('Login Unsuccessful. Please check email and password', 'danger')
       return render_template('login.html', title='Login', form=form)
