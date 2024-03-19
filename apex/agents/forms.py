@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField,FileField, SelectField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange
 from flask_login import current_user
 from apex.models import Agent
 from email_validator import validate_email, EmailNotValidError
+
 
 
 
@@ -40,3 +41,21 @@ class LoginForm(FlaskForm):
   password = PasswordField('Password', validators=[DataRequired()])
   remember = BooleanField('Remember Me')
   submit = SubmitField('Login')
+
+class PropertyForm(FlaskForm):
+  address = StringField('Address', validators=[DataRequired()])
+  city = StringField('City', validators=[DataRequired()])
+  property_size = IntegerField('Property Size (sqft)', validators=[DataRequired(), NumberRange(min=0)])
+  num_bedrooms = IntegerField('Number of Bedrooms', validators=[DataRequired(), NumberRange(min=0)])
+  num_bathrooms = IntegerField('Number of Bathrooms', validators=[DataRequired(), NumberRange(min=0)])
+  num_carspaces = IntegerField('Number of Carspaces', validators=[DataRequired(), NumberRange(min=0)])
+  description = TextAreaField('Description')
+  images = FileField('Images')
+  listing_type = SelectField('Listing Type', choices=[('1', 'For Sale'), ('2', 'For Rent')], coerce=int, validators=[DataRequired()])
+  submit = SubmitField('Add Property')
+
+class UpdateProfileForm(FlaskForm):
+  username = StringField('Username', validators=[DataRequired()])
+  email = StringField('Email', validators=[DataRequired()])
+  profile_pic = FileField('Profile Picture')
+  submit = SubmitField('Update')

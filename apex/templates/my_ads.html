@@ -1,0 +1,11 @@
+{% extends "base_agent.html" %}
+{% block content %}
+<div class="container">
+    <h1>My Ads</h1>
+    {% for property in properties %}
+    <!-- Display property details -->
+    <p>{{ property.address }}, {{ property.imag }}</p>
+    <!-- Additional property details as needed -->
+    {% endfor %}
+</div>
+{% endblock %}

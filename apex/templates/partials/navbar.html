@@ -1,0 +1,47 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbar-color">
+    <a class="navbar-brand navbar-logo" href="{{ url_for('agents.home_agent') }}"></a>
+    <button class="navbar-toggler text-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-right" id="navbarsExampleDefault">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.home_agent') }}" }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.register') }}">All Properties</a>
+            </li>
+            <!-- Check if there is a user logged in and show personal page -->
+          {% if current_user.is_authenticated %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.add_property') }}">Add a Property</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.my_ads') }}">My Ads</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.view_profile') }}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.logout') }}">Logout</a>
+            </li>
+
+            <!-- If there's no user logged in session this links will be display -->
+            {% else %}
+
+            <li class="nav-item p-0">
+                <a class="nav-link" href="{{ url_for('agents.register') }}">Create Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('agents.login') }}">Login</a>
+            </li>
+        </ul>
+        {% endif %}
+
+    </div>
+
+</nav>

@@ -1,0 +1,22 @@
+{% extends "base_agent.html" %}
+{% block content %}
+<div class="container">
+    <h1>My Profile</h1>
+    <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_pic) }}" alt="Profile Picture">
+    <p>Username: {{ current_user.username }}</p>
+    <!-- Update Profile Form -->
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <!-- Fields for updating profile information -->
+        <!-- Button to submit form -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+    <hr>
+    <h2>My Ads</h2>
+    <p><a href="{{ url_for('agents.my_ads') }}">View My Ads</a></p>
+    <!-- Option to delete account -->
+    <form action="{{ url_for('agents.logout') }}" method="post">
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+</div>
+{% endblock %}
