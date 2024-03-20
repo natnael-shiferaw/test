@@ -1,18 +1,18 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from apex import db, bcrypt
-from apex.models import Agent,Property,PropertyImage
+from apex.models import Agent,Property
 from apex.agents.forms import RegistrationForm, LoginForm, PropertyForm, UpdateProfileForm
 
 import os
-from werkzeug.utils import secure_filename
+#from werkzeug.utils import secure_filename
 
 # Specify the directory where uploaded images will be stored
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'properties_img')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+#UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'properties_img')
+#ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 # helper function to check if the file extension is allowed
-def allowed_file(filename):
-  return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+#def allowed_file(filename):
+ # return '.' in filename and filename.rsplit('.', 1)[1].lower() in #ALLOWED_EXTENSIONS
 
 
 agents = Blueprint('agents', __name__)
@@ -64,34 +64,32 @@ def logout():
 def add_property():
     form = PropertyForm()
     if form.validate_on_submit():
-        images = []
-        # Handle file upload for each image in the form
-        for image in request.files.getlist('images'):
-            if image.filename == '':
-                flash('No selected file', 'danger')
-                return redirect(request.url)
-            if image and allowed_file(image.filename):
-                filename = secure_filename(image.filename)
-                image_path = os.path.join(UPLOAD_FOLDER, filename)
-                # Ensure the directory exists
-                os.makedirs(os.path.dirname(image_path), exist_ok=True)
-                image.save(image_path)
-                images.append(PropertyImage(image_path=image_path))
+        # Extracting data from the form
+        address = form.address.data
+        city = form.city.data
+        property_size = form.property_size.data
+        num_bedrooms = form.num_bedrooms.data
+        num_bathrooms = form.num_bathrooms.data
+        num_carspaces = form.num_carspaces.data
+        description = form.description.data
+        image_link = form.image_link.data
+        agent_id = current_user.id
 
+        # Creating a new Property object and adding it to the database
         property = Property(
-            address=form.address.data,
-            city=form.city.data,
-            property_size=form.property_size.data,
-            num_bedrooms=form.num_bedrooms.data,
-            num_bathrooms=form.num_bathrooms.data,
-            num_carspaces=form.num_carspaces.data,
-            description=form.description.data,
-            images=images,
-            agent_id=current_user.id,
-            listing_type_id=form.listing_type.data
+            address=address,
+            city=city,
+            property_size=property_size,
+            num_bedrooms=num_bedrooms,
+            num_bathrooms=num_bathrooms,
+            num_carspaces=num_carspaces,
+            description=description,
+            image_link=image_link,
+            agent_id=agent_id
         )
         db.session.add(property)
         db.session.commit()
+
         flash('Property has been added successfully!', 'success')
         return redirect(url_for('agents.home_agent'))
     return render_template("add_property.html", title='Add Property', form=form)

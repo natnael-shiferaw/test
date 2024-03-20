@@ -18,7 +18,7 @@ class Agent(db.Model, UserMixin):
 
   def __repr__(self):
       return f"Agent('{self.username}', '{self.email}', '{self.profile_pic}')"
-
+"""
 class PropertyImage(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=False)
@@ -26,7 +26,7 @@ class PropertyImage(db.Model):
 
   def __repr__(self):
       return f"PropertyImage('{self.property_id}', '{self.image_path}')"
-
+"""
 class Property(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   address = db.Column(db.String(255), nullable=False)
@@ -36,15 +36,13 @@ class Property(db.Model):
   num_bathrooms = db.Column(db.Integer, nullable=False)
   num_carspaces = db.Column(db.Integer, nullable=False)
   description = db.Column(db.Text, nullable=True)
-
-  # Define the one-to-many relationship between Property and PropertyImage
-  images = db.relationship('PropertyImage', backref='property', lazy=True)
-  # Define the one-to-one relationship between Property and Agent
+  image_link = db.Column(db.String(255), nullable=True)  # Update this line for image link
   agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
   agent = db.relationship('Agent', backref='properties')
 
   def __repr__(self):
       return f"Property('{self.address}', '{self.city}')"
+
 
 class ListingType(db.Model):
   id = db.Column(db.Integer, primary_key=True)

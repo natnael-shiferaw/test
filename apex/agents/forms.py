@@ -45,13 +45,13 @@ class LoginForm(FlaskForm):
 class PropertyForm(FlaskForm):
   address = StringField('Address', validators=[DataRequired()])
   city = StringField('City', validators=[DataRequired()])
-  property_size = IntegerField('Property Size (sqft)', validators=[DataRequired(), NumberRange(min=0)])
-  num_bedrooms = IntegerField('Number of Bedrooms', validators=[DataRequired(), NumberRange(min=0)])
-  num_bathrooms = IntegerField('Number of Bathrooms', validators=[DataRequired(), NumberRange(min=0)])
-  num_carspaces = IntegerField('Number of Carspaces', validators=[DataRequired(), NumberRange(min=0)])
+  property_size = IntegerField('Property Size', validators=[DataRequired(), NumberRange(min=1)])
+  num_bedrooms = IntegerField('Number of Bedrooms', validators=[DataRequired(), NumberRange(min=1)])
+  num_bathrooms = IntegerField('Number of Bathrooms', validators=[DataRequired(), NumberRange(min=1)])
+  num_carspaces = IntegerField('Number of Car Spaces', validators=[DataRequired(), NumberRange(min=0)])
   description = TextAreaField('Description')
-  images = FileField('Images')
-  listing_type = SelectField('Listing Type', choices=[('1', 'For Sale'), ('2', 'For Rent')], coerce=int, validators=[DataRequired()])
+  image_link = StringField('Image Link')
+  listing_type = SelectField('Listing Type', choices=[('sale', 'For Sale'), ('rent', 'For Rent')], validators=[DataRequired()])
   submit = SubmitField('Add Property')
 
 class UpdateProfileForm(FlaskForm):
