@@ -14,10 +14,13 @@ class Agent(db.Model, UserMixin):
   profile_pic = db.Column(db.String(20), nullable=False, default='default.jpg')
   password = db.Column(db.String(60), nullable=False)
   description = db.Column(db.Text, nullable=False, default='some description')
-  phone_number = db.Column(db.String(20), nullable=False, default='some phone number')
+  phone_number = db.Column(db.String(20), nullable=False)
+  full_name = db.Column(db.String(100), nullable=False)  # Updated to full name attribute
 
   def __repr__(self):
       return f"Agent('{self.username}', '{self.email}', '{self.profile_pic}')"
+
+
 """
 class PropertyImage(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -36,14 +39,19 @@ class Property(db.Model):
   num_bathrooms = db.Column(db.Integer, nullable=False)
   num_carspaces = db.Column(db.Integer, nullable=False)
   description = db.Column(db.Text, nullable=True)
-  image_link = db.Column(db.String(255), nullable=True)  # Update this line for image link
+  image_link = db.Column(db.String(255), nullable=True)
+  price = db.Column(db.Integer, nullable=False)  # New attribute for property price
+  created_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  # New attribute for property creation date
+  listing_status = db.Column(db.String(50), nullable=False)  # New attribute for property listing status
+  listing_type = db.Column(db.String(50), nullable=False)  # New attribute for property listing type
+
   agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
   agent = db.relationship('Agent', backref='properties')
 
   def __repr__(self):
-      return f"Property('{self.address}', '{self.city}')"
+    return f"Property('{self.address}', '{self.city}')"
 
-
+"""
 class ListingType(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   description = db.Column(db.String(100), nullable=False)
@@ -81,7 +89,9 @@ class Listing(db.Model):
   def __repr__(self):
       return f"Listing('{self.id}', '{self.property_id}', '{self.agent_id}')"
 
+
 class PropertyAgent(db.Model):
   property_id = db.Column(db.Integer, db.ForeignKey('property.id'),     
     primary_key=True)
   agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), primary_key=True)
+"""

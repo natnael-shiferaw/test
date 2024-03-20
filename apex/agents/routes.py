@@ -30,7 +30,7 @@ def register():
   form = RegistrationForm()
   if form.validate_on_submit():
       hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-      agent = Agent(username=form.username.data, email=form.email.data, password=hashed_password)
+      agent = Agent(username=form.username.data, email=form.email.data, full_name=form.full_name.data, phone_number=form.phone_number.data, password=hashed_password)
       db.session.add(agent)
       db.session.commit()
       flash('Your account has been created! You are now able to log in', 'success')
@@ -74,6 +74,9 @@ def add_property():
         description = form.description.data
         image_link = form.image_link.data
         agent_id = current_user.id
+        price = form.price.data
+        listing_status = form.listing_status.data
+        listing_type = form.listing_type.data
 
         # Creating a new Property object and adding it to the database
         property = Property(
@@ -85,7 +88,10 @@ def add_property():
             num_carspaces=num_carspaces,
             description=description,
             image_link=image_link,
-            agent_id=agent_id
+            agent_id=agent_id,
+            price=price,
+            listing_status=listing_status,
+            listing_type=listing_type
         )
         db.session.add(property)
         db.session.commit()

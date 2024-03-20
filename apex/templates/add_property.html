@@ -1,47 +1,72 @@
 {% extends "base_agent.html" %}
 {% block content %}
-  <div class="container">
-    <h2>Add Property</h2>
-    <form method="POST" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
-      <div class="form-group">
-        {{ form.address.label(class="form-control-label") }}
-        {{ form.address(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.city.label(class="form-control-label") }}
-        {{ form.city(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.property_size.label(class="form-control-label") }}
-        {{ form.property_size(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.num_bedrooms.label(class="form-control-label") }}
-        {{ form.num_bedrooms(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.num_bathrooms.label(class="form-control-label") }}
-        {{ form.num_bathrooms(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.num_carspaces.label(class="form-control-label") }}
-        {{ form.num_carspaces(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.description.label(class="form-control-label") }}
-        {{ form.description(class="form-control form-control-lg") }}
-      </div>
-      <div class="form-group">
-        {{ form.image_link.label(class="form-control-label") }}
-        {{ form.image_link(class="form-control form-control-lg") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.listing_type.label(class="form-control-label") }}
-        {{ form.listing_type(class="form-control form-control-lg") }}
-      </div>
-      <button type="submit" class="btn btn-primary">Add Property</button>
-    </form>
-  </div>
+<div class="container-fluid col-11 col-md-8 col-lg-6 col-xl-5 mb-4 add-property-container">
+    <div class="row add-title mb-3">
+        <h2>Add Property</h2>
+    </div>
+    <div class="row mx-auto px-2 form-property">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <!-- Address -->
+            <div class="form-group">
+                {{ form.address.label(class="form-control-label") }}
+                {{ form.address(class="form-control form-control-lg") }}
+            </div>
+            <!-- City -->
+            <div class="form-group">
+                {{ form.city.label(class="form-control-label") }}
+                {{ form.city(class="form-control form-control-lg") }}
+            </div>
+            <!-- Property Size -->
+            <div class="form-group">
+                {{ form.property_size.label(class="form-control-label") }}
+                {{ form.property_size(class="form-control form-control-lg") }}
+            </div>
+            <!-- Number of Bedrooms -->
+            <div class="form-group">
+                {{ form.num_bedrooms.label(class="form-control-label") }}
+                {{ form.num_bedrooms(class="form-control form-control-lg") }}
+            </div>
+            <!-- Number of Bathrooms -->
+            <div class="form-group">
+                {{ form.num_bathrooms.label(class="form-control-label") }}
+                {{ form.num_bathrooms(class="form-control form-control-lg") }}
+            </div>
+            <!-- Number of Car Spaces -->
+            <div class="form-group">
+                {{ form.num_carspaces.label(class="form-control-label") }}
+                {{ form.num_carspaces(class="form-control form-control-lg") }}
+            </div>
+            <!-- Description -->
+            <div class="form-group">
+                {{ form.description.label(class="form-control-label") }}
+                {{ form.description(class="form-control form-control-lg") }}
+            </div>
+            <!-- Image Link -->
+            <div class="form-group">
+                {{ form.image_link.label(class="form-control-label") }}
+                {{ form.image_link(class="form-control form-control-lg") }}
+            </div>
+            <!-- Price -->
+            <div class="form-group">
+                {{ form.price.label(class="form-control-label") }}
+                {{ form.price(class="form-control form-control-lg") }}
+            </div>
+            <!-- Listing Type -->
+            <div class="form-group">
+                {{ form.listing_type.label(class="form-control-label") }}
+                {{ form.listing_type(class="form-control form-control-lg") }}
+            </div>
+            <!-- Listing Status -->
+            <div class="form-group">
+                {{ form.listing_status.label(class="form-control-label") }}
+                {{ form.listing_status(class="form-control form-control-lg") }}
+            </div>
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Property</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, TextAreaField,FileField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange, Optional
 from flask_login import current_user
 from apex.models import Agent
 from email_validator import validate_email, EmailNotValidError
@@ -10,29 +10,29 @@ from email_validator import validate_email, EmailNotValidError
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
-                           validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+  full_name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=50)])
+  username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+  email = StringField('Email', validators=[DataRequired(), Email()])
+  phone_number = StringField('Phone Number', validators=[DataRequired(), Length(min=7, max=20)])
+  password = PasswordField('Password', validators=[DataRequired()])
+  confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+  submit = SubmitField('Sign Up')
 
-    def validate_username(self, username):
-        agent = Agent.query.filter_by(username=username.data).first()
-        if agent:
-            raise ValidationError('That username is taken. Please choose a different one.')
+  def validate_username(self, username):
+      agent = Agent.query.filter_by(username=username.data).first()
+      if agent:
+          raise ValidationError('That username is taken. Please choose a different one.')
 
-    def validate_email(self, email):
-        try:
-          validate_email(email.data)  # Use email_validator here
-        except EmailNotValidError:
-          raise ValidationError('Invalid email address.')
+  def validate_email(self, email):
+      try:
+        validate_email(email.data)  # Use email_validator here
+      except EmailNotValidError:
+        raise ValidationError('Invalid email address.')
 
-        agent = Agent.query.filter_by(email=email.data).first()
-        if agent:
-            raise ValidationError('That email is taken. Please choose a different one.')
+      agent = Agent.query.filter_by(email=email.data).first()
+      if agent:
+          raise ValidationError('That email is taken. Please choose a different one.')
+
 
 
 class LoginForm(FlaskForm):
@@ -52,7 +52,19 @@ class PropertyForm(FlaskForm):
   description = TextAreaField('Description')
   image_link = StringField('Image Link')
   listing_type = SelectField('Listing Type', choices=[('sale', 'For Sale'), ('rent', 'For Rent')], validators=[DataRequired()])
+  price = IntegerField('Price', validators=[Optional()])
+  listing_status = SelectField('Listing Status', choices=[], validators=[DataRequired()])
   submit = SubmitField('Add Property')
+
+  def __init__(self, *args, **kwargs):
+      super(PropertyForm, self).__init__(*args, **kwargs)
+      # Update listing_status choices based on listing_type
+      self.listing_status.choices = [('active', 'Active'), ('pending', 'Pending')]
+      if self.listing_type.data == 'rent':
+          self.listing_status.choices.append(('rented', 'Rented'))
+      elif self.listing_type.data == 'sale':
+          self.listing_status.choices.append(('sold', 'Sold'))
+
 
 class UpdateProfileForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
