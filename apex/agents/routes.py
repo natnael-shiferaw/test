@@ -19,8 +19,12 @@ agents = Blueprint('agents', __name__)
 
 @agents.route("/agents", methods=['GET', 'POST'])
 def home_agent():
-  for_sale =[]
-  for_rent = []
+  # Fetch all properties for sale
+  for_sale = Property.query.filter_by(listing_type='sale').all()
+
+  # Fetch all properties for rent
+  for_rent = Property.query.filter_by(listing_type='rent').all()
+
   return render_template("home_agent.html", for_sale=for_sale, for_rent=for_rent)
 
 @agents.route("/agents/register", methods=['GET', 'POST'])
@@ -110,6 +114,37 @@ def view_profile():
         return redirect(url_for('agents.view_profile'))
     return render_template('view_profile.html', title='My Profile', form=form)
 
+@agents.route("/agents/change_photo", methods=["POST"])
+@login_required
+def change_photo():
+    new_photo_url = request.form.get("new_photo_url")
+    if new_photo_url:  # Ensure photo URL is not None
+        current_user.profile_pic = new_photo_url
+        db.session.commit()
+        flash("Profile photo updated successfully", "success")
+    else:
+        flash("Failed to update profile photo. Please provide a valid URL", "danger")
+    return redirect(url_for("agents.home_agent"))
+
+@agents.route("/agents/change_password", methods=["POST"])
+@login_required
+def change_password():
+    new_password = request.form.get("new_password")
+    hashed_password = bcrypt.generate_password_hash(new_password).decode("utf-8")
+    current_user.password = hashed_password
+    db.session.commit()
+    flash("Password changed successfully", "success")
+    return redirect(url_for("agents.view_profile"))
+
+@agents.route("/agents/delete_account", methods=["POST"])
+@login_required
+def delete_account():
+    db.session.delete(current_user)
+    db.session.commit()
+    flash("Your account has been deleted", "success")
+    logout_user()
+    return redirect(url_for("agents.home_agent"))
+
 
 @agents.route("/agents/my_ads", methods=['GET'])
 @login_required
@@ -185,3 +220,18 @@ def edit_property(property_id):
   else:
       flash('Property not found.', 'danger')
       return redirect(url_for('agents.home_agent'))
+
+@agents.route("/agents/properties_list", methods=['GET', 'POST'])
+def properties_list():
+    # Get the selected option from the dropdown menu
+    selected_option = request.form.get('listing_type')
+
+    # Query properties based on the selected option
+    if selected_option == 'For Sale':
+        properties = Property.query.filter_by(listing_type='sale').all()
+    elif selected_option == 'For Rent':
+        properties = Property.query.filter_by(listing_type='rent').all()
+    else:
+        properties = Property.query.all()
+
+    return render_template("properties_list.html", properties=properties, selected_option=selected_option)

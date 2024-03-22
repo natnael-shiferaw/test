@@ -11,7 +11,7 @@ class Agent(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(20), unique=True, nullable=False)
   email = db.Column(db.String(120), unique=True, nullable=False)
-  profile_pic = db.Column(db.String(20), nullable=False, default='default.jpg')
+  profile_pic = db.Column(db.String(255), nullable=False, default='default.jpg')
   password = db.Column(db.String(60), nullable=False)
   description = db.Column(db.Text, nullable=False, default='some description')
   phone_number = db.Column(db.String(20), nullable=False)

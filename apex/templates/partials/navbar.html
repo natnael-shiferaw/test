@@ -12,7 +12,7 @@
                 <a class="nav-link" href="{{ url_for('agents.home_agent') }}" }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('agents.register') }}">All Properties</a>
+                <a class="nav-link" href="{{ url_for('agents.properties_list') }}">All Properties</a>
             </li>
             <!-- Check if there is a user logged in and show personal page -->
           {% if current_user.is_authenticated %}
