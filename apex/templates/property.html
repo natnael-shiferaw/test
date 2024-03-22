@@ -20,7 +20,7 @@
                     <span class="top-address col-md-6">{{ property_details.address }}</span>
                     <span class="details-price col-md-6">
                         {% if property_details.listing_type == 'rent' %}
-                            <div>£{{ property_details.price }} PCM</div>
+                            <div>${{ property_details.price }} Per Month</div>
                         {% else %}
                             <div>£{{ property_details.price }}</div>
                         {% endif %}
@@ -28,8 +28,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-7 property-image-box">
-                        {% if property_details.image_path  %}
-                            <img src="{{ property_details.image_path }}" class="img-fluid details-property-img" alt="Property Image">
+                        {% if property_details.image_link  %}
+                            <img src="{{ property_details.image_link }}" class="img-fluid details-property-img" alt="Property Image">
                         {% else %}
                             <img src="{{ url_for('static', filename='no-image.png') }}" class="img-fluid details-property-img" alt="Property Image">
                         {% endif %}
@@ -48,7 +48,7 @@
                                         <span>{{ property_details.city }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between">
-                                        <strong>Status:</strong>
+                                        <strong>Listing Type:</strong>
                                         {% if property_details.listing_type == 'rent' %}
                                             <span>For Rent</span>
                                         {% else %}
