@@ -116,3 +116,72 @@ def view_profile():
 def my_ads():
     properties = Property.query.filter_by(agent_id=current_user.id).all()
     return render_template('my_ads.html', title='My Ads', properties=properties)
+
+
+@agents.route("/agents/property_details/<property_id>", methods=["GET", "POST"])
+def property_details(property_id):
+    """
+    READ - Display ads individually with all data
+    Displays the data and a specific ad by ID.
+    The user's session is also checked so that the EDIT and DELETE buttons are
+    rendered or not in the case of the ad owner.
+    """
+    # Check if there's a user logged in
+    if current_user.is_authenticated:
+        # Assuming 'Property' is your model class for properties
+        property_details = Property.query.filter_by(id=property_id).first()
+        agent = current_user.username.upper()
+        return render_template("property.html", property_details=property_details, agent=agent)
+
+    # If no user is logged in
+    property_details = Property.query.filter_by(id=property_id).first()
+    return render_template("property.html", property_details=property_details)
+
+@agents.route("/agents/delete_property/<property_id>", methods=["GET", "POST"])
+def delete_property(property_id):
+  property_to_delete = Property.query.get(property_id)
+  if property_to_delete:
+      # Assuming you have some authorization logic here to ensure only the owner can delete
+      if current_user == property_to_delete.agent:
+          # Deleting the property
+          db.session.delete(property_to_delete)
+          db.session.commit()
+          flash('Property deleted successfully!', 'success')
+      else:
+          flash('You are not authorized to delete this property.', 'danger')
+  else:
+      flash('Property not found.', 'danger')
+
+  return redirect(url_for('agents.home_agent')) 
+
+@agents.route("/agents/edit_property/<property_id>", methods=["GET", "POST"])
+def edit_property(property_id):
+  property_to_edit = Property.query.get(property_id)
+  if property_to_edit:
+      # Assuming you have some authorization logic here to ensure only the owner or admin can edit
+      if current_user == property_to_edit.agent:
+          if request.method == "POST":
+              # Update property details
+              property_to_edit.address = request.form['address']
+              property_to_edit.price = request.form['price']
+              property_to_edit.num_bedrooms = request.form['num_bedrooms']
+              property_to_edit.num_bathrooms = request.form['num_bathrooms']
+              property_to_edit.city = request.form['city']
+              property_to_edit.listing_type = request.form['listing_type']
+              property_to_edit.description = request.form['description']
+
+              # Check if an image link is provided
+              if 'image_link' in request.form:
+                  property_to_edit.image_link = request.form['image_link']
+              # Commit the changes to the database
+              db.session.commit()
+              flash('Property updated successfully!', 'success')
+              return redirect(url_for('agents.property_details', property_id=property_id))
+          else:
+              return render_template('edit_property.html', property_details=property_to_edit)
+      else:
+          flash('You are not authorized to edit this property.', 'danger')
+          return redirect(url_for('agents.property_details', property_id=property_id))
+  else:
+      flash('Property not found.', 'danger')
+      return redirect(url_for('agents.home_agent'))

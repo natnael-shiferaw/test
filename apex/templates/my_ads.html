@@ -1,27 +1,33 @@
 {% extends "base_agent.html" %}
+{% block title %}{{ current_user.full_name.capitalize() }}'s Ads | {% endblock %}
 {% block content %}
-<div class="container">
-    <h1>My Ads</h1>
-    {% for property in properties %}
-    <!-- Display property details -->
-    <div class="property-card">
-        <img src="{{ property.image_link }}" alt="Property Image">
-        <div class="property-details">
-            <p>Address: {{ property.address }}</p>
-            <p>Agent: {{ property.agent.full_name }}</p>
-            <p>Listing Type: {{ property.listing_type }}</p>
-            <p>Price: {{ property.price }}</p>
-            <p>Listing Status: {{ property.listing_status }}</p>
-            <p>Created Date: {{ property.created_date }}</p>
-            <!-- Additional property details as needed -->
-            <p>Property Size: {{ property.property_size }}</p>
-            <p>Number of Bedrooms: {{ property.num_bedrooms }}</p>
-            <p>Number of Bathrooms: {{ property.num_bathrooms }}</p>
-            <p>Number of Car Spaces: {{ property.num_carspaces }}</p>
-            <p>Description: {{ property.description }}</p>
-            <!-- Add more details here if needed -->
-        </div>
+
+<section class="col-12">
+  <div class="container">
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-success d-flex justify-content-center">
+        {% for message in messages %}
+        <span>{{ message }}</span>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+    {% endif %}
+    {% endwith %}
+
+    
+        <div class="row col-12 mx-auto px-0 px-md-auto">
+            {% if properties %}
+                {% for property in properties %}
+                    {% include "partials/cards.html" %}
+                {% endfor %}
+            {% else %}
+                {% include "partials/no_results.html" %}
+            {% endif %}
+        </div>
+
+
+
+  </div>
+</section>
 {% endblock %}

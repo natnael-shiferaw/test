@@ -1,0 +1,62 @@
+{% extends "base_agent.html" %}
+
+{% block content %}
+
+<div class="container-fluid col-11 col-md-8 col-lg-6 col-xl-5 mb-4 add-property-container">
+    <div class="row add-title mb-3">
+        <h4>EDIT PROPERTY</h4>
+    </div>
+    <div class="row mx-auto px-2 mt-3 form-property">
+        <form action="{{ url_for('agents.edit_property', property_id=property_details.id) }}" method="POST">
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ property_details.address }}" placeholder="Address" required>
+            </div>
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" id="price" name="price" value="{{ property_details.price }}" placeholder="Price" required>
+            </div>
+            <!-- City -->
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" value="{{ property_details.city }}" placeholder="City" required>
+            </div>
+            <!-- Listing Type -->
+            <div class="form-group">
+                <label for="listing_type">Listing Type</label>
+                <select class="custom-select" id="listing_type" name="listing_type">
+                    <option value="sale" {% if property_details.listing_type == 'sale' %} selected {% endif %}>For Sale</option>
+                    <option value="rent" {% if property_details.listing_type == 'rent' %} selected {% endif %}>For Rent</option>
+                </select>
+            </div>
+            <!-- Num Bedrooms -->
+            <div class="form-group">
+                <label for="num_bedrooms">Number of Bedrooms</label>
+                <input type="number" class="form-control" id="num_bedrooms" name="num_bedrooms" value="{{ property_details.num_bedrooms }}" placeholder="Number of Bedrooms" required>
+            </div>
+            <!-- Num Bathrooms -->
+            <div class="form-group">
+                <label for="num_bathrooms">Number of Bathrooms</label>
+                <input type="number" class="form-control" id="num_bathrooms" name="num_bathrooms" value="{{ property_details.num_bathrooms }}" placeholder="Number of Bathrooms" required>
+            </div>
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows="7" id="description" name="description" placeholder="Description">{{ property_details.description }}</textarea>
+            </div>
+            <!-- Image Path -->
+            <div class="form-group">
+                <label for="image_path">Image Path</label>
+                <input type="text" class="form-control" id="image_path" name="image_path" value="{{ property_details.image_path }}" placeholder="Image Path">
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-dark btn-block mb-3">Update</button>
+            <!-- Cancel Button -->
+            <a class="btn btn-dark btn-block mb-3" href="{{ url_for('agents.property_details', property_id=property_details.id) }}">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
