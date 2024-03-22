@@ -114,17 +114,6 @@ def view_profile():
         return redirect(url_for('agents.view_profile'))
     return render_template('view_profile.html', title='My Profile', form=form)
 
-@agents.route("/agents/change_photo", methods=["POST"])
-@login_required
-def change_photo():
-    new_photo_url = request.form.get("new_photo_url")
-    if new_photo_url:  # Ensure photo URL is not None
-        current_user.profile_pic = new_photo_url
-        db.session.commit()
-        flash("Profile photo updated successfully", "success")
-    else:
-        flash("Failed to update profile photo. Please provide a valid URL", "danger")
-    return redirect(url_for("agents.home_agent"))
 
 @agents.route("/agents/change_password", methods=["POST"])
 @login_required
