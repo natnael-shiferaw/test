@@ -9,7 +9,7 @@
               <span>Hi {{current_user.full_name.capitalize()}}</span>
           </div>
           <div class="col-8 col-md-4 agent-image-box">
-              <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_pic) }}" alt="Profile Picture">
+              <img src="{{ current_user.profile_pic }}" class="img-fluid details-property-img" alt="Profile Picture">
           </div>
           <div class="container">
               <div class="agent-options-box">
@@ -22,10 +22,9 @@
                   <div class="col-11 col-md-6 button-agent-options">
                       <button type="button" class="btn btn-dark btn-block btn-sm mx-auto" data-toggle="modal" data-target="#agent_change_password">Change Password</button>
                   </div>
-                  <!-- A link to add_property -->
+                  <!-- Change Photo Button trigger modal -->
                   <div class="col-11 col-md-6 button-agent-options">
-                      <a href={{ url_for( 'agents.add_property') }}><button type="submit"
-                              class="btn btn-dark btn-block btn-sm mx-auto">Add Property</button></a>
+                      <button type="button" class="btn btn-dark btn-block btn-sm mx-auto" data-toggle="modal" data-target="#agent_change_photo">Change Photo</button>
                   </div>
                   <!-- Delete Account Button trigger modal -->
                   <div class="col-11 col-md-6 button-agent-options">
@@ -76,6 +75,31 @@
     </div>
 </div>
 
+<!-- Modal Change Photo -->
+<div class="modal fade" id="agent_change_photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Change Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ url_for('agents.change_photo') }}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center">Please enter the URL of your new photo</div>
+                        <input id="new_photo_url" name="new_photo_url" class="form-control mt-3" type="url" maxlength="150" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Update Photo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Modal Delete Account -->
 <div class="modal fade" id="agent_delete_account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
