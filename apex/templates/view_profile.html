@@ -9,7 +9,7 @@
               <span>Hi {{current_user.full_name.capitalize()}}</span>
           </div>
           <div class="col-8 col-md-4 agent-image-box">
-              <img src="{{ current_user.profile_pic }}" class="img-fluid details-property-img" alt="Profile Picture">
+              <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_pic) }}" class="img-fluid details-property-img" alt="Profile Picture">
           </div>
           <div class="container">
               <div class="agent-options-box">
@@ -85,11 +85,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ url_for('agents.change_photo') }}">
+            <form method="POST" action="{{ url_for('agents.change_photo') }}" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="d-flex justify-content-center">Please enter the URL of your new photo</div>
-                        <input id="new_photo_url" name="new_photo_url" class="form-control mt-3" type="url" maxlength="150" placeholder="https://...">
+                        <label for="photo">Upload Photo:</label>
+                        <input type="file" class="form-control-file" id="photo" name="photo" accept="image/*">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -100,6 +100,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Modal Delete Account -->
 <div class="modal fade" id="agent_delete_account" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

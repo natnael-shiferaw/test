@@ -2,7 +2,8 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from apex import db, bcrypt
 from apex.models import Agent,Property
-from apex.agents.forms import RegistrationForm, LoginForm, PropertyForm, UpdateProfileForm
+from apex.agents.forms import RegistrationForm, LoginForm, PropertyForm
+from apex.agents.utils import save_profile_picture
 
 import os
 #from werkzeug.utils import secure_filename
@@ -107,24 +108,22 @@ def add_property():
 @agents.route("/agents/profile", methods=['GET', 'POST'])
 @login_required
 def view_profile():
-    form = UpdateProfileForm()
-    if form.validate_on_submit():
-        # Code to handle form submission and update profile information
-        flash('Profile updated successfully!', 'success')
-        return redirect(url_for('agents.view_profile'))
-    return render_template('view_profile.html', title='My Profile', form=form)
+    """
+    This function is used to view the profile of the logged in agent."""
+    return render_template('view_profile.html', title='My Profile')
 
 @agents.route("/agents/change_photo", methods=["POST"])
 @login_required
 def change_photo():
-    new_photo_url = request.form.get("new_photo_url")
-    if new_photo_url:  # Ensure photo URL is not None
-        current_user.profile_pic = new_photo_url
-        db.session.commit()
-        flash("Profile photo updated successfully", "success")
-    else:
-        flash("Failed to update profile photo. Please provide a valid URL", "danger")
-    return redirect(url_for("agents.home_agent"))
+    if 'photo' in request.files:
+        photo = request.files['photo']
+        if photo.filename != '':
+            picture_file = save_profile_picture(photo)
+            current_user.profile_pic = picture_file
+            db.session.commit()
+            flash("Profile photo updated successfully", "success")
+            return redirect(url_for("agents.view_profile"))
+    flash("Failed to update profile photo. Please select a valid photo", "danger")
 
 @agents.route("/agents/change_password", methods=["POST"])
 @login_required
@@ -204,6 +203,7 @@ def edit_property(property_id):
               property_to_edit.city = request.form['city']
               property_to_edit.listing_type = request.form['listing_type']
               property_to_edit.description = request.form['description']
+              property_to_edit.listing_status = request.form['listing_status']
 
               # Check if an image link is provided
               if 'image_link' in request.form:

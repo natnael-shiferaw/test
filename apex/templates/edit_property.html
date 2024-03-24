@@ -48,9 +48,20 @@
             </div>
             <!-- Image Path -->
             <div class="form-group">
-                <label for="image_path">Image Path</label>
-                <input type="text" class="form-control" id="image_path" name="image_path" value="{{ property_details.image_path }}" placeholder="Image Path">
+                <label for="image_link">Image Link</label>
+                <input type="text" class="form-control" id="image_link" name="image_link" value="{{ property_details.image_link }}" placeholder="https://">
             </div>
+            <!-- Listing Status -->
+            <div class="form-group">
+                <label for="listing_status">Listing Status</label>
+                <select class="custom-select" id="listing_status" name="listing_status">
+                    <option value="active" {% if property_details.listing_status == 'active' %} selected {% endif %}>Active</option>
+                    <option value="pending" {% if property_details.listing_status == 'pending' %} selected {% endif %}>Pending</option>
+                    <option value="rented" {% if property_details.listing_status == 'rented' %} selected {% endif %}>Rented</option>
+                    <option value="sold" {% if property_details.listing_status == 'sold' %} selected {% endif %}>Sold</option>
+                </select>
+            </div>
+
             <!-- Submit Button -->
             <button type="submit" class="btn btn-dark btn-block mb-3">Update</button>
             <!-- Cancel Button -->

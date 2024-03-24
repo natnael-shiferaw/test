@@ -22,7 +22,7 @@
                         {% if property_details.listing_type == 'rent' %}
                             <div>${{ property_details.price }} Per Month</div>
                         {% else %}
-                            <div>£{{ property_details.price }}</div>
+                            <div>${{ property_details.price }}</div>
                         {% endif %}
                     </span>
                 </div>
@@ -44,10 +44,6 @@
                             <div class="row col-12 summary-list-box">
                                 <ul class="col-12 summary-list">
                                     <li class="d-flex justify-content-between">
-                                        <strong>City:</strong>
-                                        <span>{{ property_details.city }}</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between">
                                         <strong>Listing Type:</strong>
                                         {% if property_details.listing_type == 'rent' %}
                                             <span>For Rent</span>
@@ -56,12 +52,24 @@
                                         {% endif %}
                                     </li>
                                     <li class="d-flex justify-content-between">
+                                        <strong>City:</strong>
+                                        <span>{{ property_details.city }}</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <strong>Property Size:</strong>
+                                        <span>{{ property_details.property_size }} sqft</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
                                         <strong>Beds:</strong>
                                         <span>{{ property_details.num_bedrooms }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between">
                                         <strong>Baths:</strong>
                                         <span>{{ property_details.num_bathrooms }}</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between py-1">
+                                        <strong>Listing Status:</strong>
+                                        <span>{{ property_details.listing_status }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between py-1">
                                         <strong>Agent:</strong>

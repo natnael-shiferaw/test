@@ -53,21 +53,6 @@ class PropertyForm(FlaskForm):
   image_link = StringField('Image Link')
   listing_type = SelectField('Listing Type', choices=[('sale', 'For Sale'), ('rent', 'For Rent')], validators=[DataRequired()])
   price = IntegerField('Price', validators=[Optional()])
-  listing_status = SelectField('Listing Status', choices=[], validators=[DataRequired()])
+  listing_status = SelectField('Listing Status', choices=[('active', 'Active'), ('pending', 'Pending'), ('rented', 'Rented'), ('sold', 'Sold')], validators=[DataRequired()])
   submit = SubmitField('Add Property')
 
-  def __init__(self, *args, **kwargs):
-      super(PropertyForm, self).__init__(*args, **kwargs)
-      # Update listing_status choices based on listing_type
-      self.listing_status.choices = [('active', 'Active'), ('pending', 'Pending')]
-      if self.listing_type.data == 'rent':
-          self.listing_status.choices.append(('rented', 'Rented'))
-      elif self.listing_type.data == 'sale':
-          self.listing_status.choices.append(('sold', 'Sold'))
-
-
-class UpdateProfileForm(FlaskForm):
-  username = StringField('Username', validators=[DataRequired()])
-  email = StringField('Email', validators=[DataRequired()])
-  profile_pic = FileField('Profile Picture')
-  submit = SubmitField('Update')
