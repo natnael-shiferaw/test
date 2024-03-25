@@ -9,9 +9,12 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   
-<!-- font awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- font awesome -->
+  <link rel="stylesheet"     href="https://cdnjs.cloudflare.com/ajax/libs/font-  awesome/6.5.1/css/all.min.css">
 
+  
+
+  
   <title>Apex Real Estate</title>
 </head>
 
@@ -154,7 +157,69 @@
   </section>
 
 
+  <!-- Meet Our Agents-->
+  <section>
+    <div id="carousel_for_agent" class="carousel">
+      <div class="carousel-inner">
+        {% for agent in agents %}
+          <div class="carousel-item active">
+              <div class="card">
+                  <div class="img-wrapper"><img src="{{ url_for('static', filename='profile_pics/' + agent.profile_pic) }}" class="d-block w-100" alt="Agent Image"> </div>
+                  <div class="card-body">
+                      <h5 class="card-title">{{agent.full_name}}</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                          card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+              </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- Jquery script -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  
   <!-- Bootsrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <!-- script for agents carousel -->
+  <script>
+    var multipleCardCarousel = document.querySelector(
+      "#carousel_for_agent"
+    );
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+        interval: false,
+      });
+      var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+      var cardWidth = $(".carousel-item").width();
+      var scrollPosition = 0;
+      $("#carousel_for_agent .carousel-control-next").on("click", function () {
+        if (scrollPosition < carouselWidth - cardWidth * 4) {
+          scrollPosition += cardWidth;
+          $("#carousel_for_agent .carousel-inner").animate(
+            { scrollLeft: scrollPosition },
+            600
+          );
+        }
+      });
+      $("#carousel_for_agent .carousel-control-prev").on("click", function () {
+        if (scrollPosition > 0) {
+          scrollPosition -= cardWidth;
+          $("#carousel_for_agent .carousel-inner").animate(
+            { scrollLeft: scrollPosition },
+            600
+          );
+        }
+      });
+    } else {
+      $(multipleCardCarousel).addClass("slide");
+    }
+  </script>
+  
 </body>
 </html>
