@@ -26,6 +26,14 @@ def rent():
     total_properties_for_rent = Property.query.filter_by(listing_type='rent').count()
     return render_template('rent.html', for_rent=for_rent, total_properties_for_rent=total_properties_for_rent)
 
-@main.route("/property_details")
-def property_details():
-    return render_template('property_details.html')
+@main.route("/listings")
+def listings():
+    all_properties = Property.query.all()
+    # Query to get the total number of properties for rent
+    total_properties = Property.query.count()
+    return render_template('listings.html', all_properties=all_properties, total_properties=total_properties)
+
+@main.route("/property_details/<property_id>")
+def property_details(property_id):
+    property_details = Property.query.filter_by(id=property_id).first()
+    return render_template('home_property_details.html', property_details=property_details)

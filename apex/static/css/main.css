@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+.section-paddin{
+  padding: 100px 0;
+}
+
 .w-100-height {
   height: 90vh;
   width: 100%;

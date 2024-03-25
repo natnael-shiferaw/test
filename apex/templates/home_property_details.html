@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+
+  <!-- Bootsrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<!-- font awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <title>Apex Real Estate - Property</title>
+</head>
+
+<body>
+
+  {% include "partials/home_navbar.html" %}
+
+  <!-- Hero section -->
+  <div id="carousel_for_buy" class="carousel slide unique-carousel">
+    <div class="carousel-inner unique-carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{ url_for('static', filename='home6.jpg') }}" class="d-block w-100-height unique-carousel-image" alt="image">
+        <div class="carousel-caption carousell unique-carousel-caption ">
+
+          <h5>Property</h5>
+        </div>
+      </div> 
+    </div>
+  </div>
+
+  <!-- Property details -->
+  
+  <div class="container-fluid">
+          <div class="row">
+              <div class="col-12 col-lg-9 mx-auto my-3 property-details-box">
+                  <div class="row col-12 details-top-box">
+                      <span class="top-address col-md-6">{{ property_details.address }}</span>
+                      <span class="details-price col-md-6">
+                          {% if property_details.listing_type == 'rent' %}
+                              <div>${{ property_details.price }} Per Month</div>
+                          {% else %}
+                              <div>${{ property_details.price }}</div>
+                          {% endif %}
+                      </span>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-7 property-image-box">
+                          {% if property_details.image_link  %}
+                              <img src="{{ property_details.image_link }}" class="img-fluid details-property-img" alt="Property Image">
+                          {% else %}
+                              <img src="{{ url_for('static', filename='no-image.png') }}" class="img-fluid details-property-img" alt="Property Image">
+                          {% endif %}
+                      </div>
+                      <div class="col-md-5">
+                          <div class="col-12">
+                              <div class="row justify-content-center">
+                                  <div class="details-description-title">
+                                      <span>Property Summary</span>
+                                  </div>
+                              </div>
+                              <div class="row col-12 summary-list-box">
+                                  <ul class="col-12 summary-list">
+                                      <li class="d-flex justify-content-between">
+                                          <strong>Listing Type:</strong>
+                                          {% if property_details.listing_type == 'rent' %}
+                                              <span>For Rent</span>
+                                          {% else %}
+                                              <span>For Sale</span>
+                                          {% endif %}
+                                      </li>
+                                      <li class="d-flex justify-content-between">
+                                          <strong>City:</strong>
+                                          <span>{{ property_details.city }}</span>
+                                      </li>
+                                      <li class="d-flex justify-content-between">
+                                          <strong>Property Size:</strong>
+                                          <span>{{ property_details.property_size }} sqft</span>
+                                      </li>
+                                      <li class="d-flex justify-content-between">
+                                          <strong>Beds:</strong>
+                                          <span>{{ property_details.num_bedrooms }}</span>
+                                      </li>
+                                      <li class="d-flex justify-content-between">
+                                          <strong>Baths:</strong>
+                                          <span>{{ property_details.num_bathrooms }}</span>
+                                      </li>
+                                      <li class="d-flex justify-content-between py-1">
+                                          <strong>Listing Status:</strong>
+                                          <span>{{ property_details.listing_status }}</span>
+                                      </li>
+                                      <li class="d-flex justify-content-between py-1">
+                                          <strong>Agent:</strong>
+                                          <span>{{ property_details.agent.full_name }}</span>
+                                      </li>
+                                  </ul>
+                                  
+
+  <div class="container col-12">
+      <div class="row details-description-title">
+          <span>Property Description</span>
+      </div>
+      <div class="property-description mb-3">
+          <span>{{ property_details.description }}</span>
+      </div>
+  </div>
+
+  
+              
+          </div>
+      </div>
+  </div>
+        
+
+  
+</body>
+</html>
