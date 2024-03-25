@@ -5,12 +5,9 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @main.route("/home")
 def home():
-    # Fetch all properties for sale
-    for_sale = Property.query.filter_by(listing_type='sale').all()
-
-    # Fetch all properties for rent
-    for_rent = Property.query.filter_by(listing_type='rent').all()
-    return render_template('home.html', for_sale=for_sale, for_rent=for_rent)
+    # Fetches the latest 3 properties
+    latest_properties = Property.query.order_by(Property.id.desc()).limit(3).all()
+    return render_template('home.html', latest_properties=latest_properties)
 
 @main.route("/buy")
 def buy():

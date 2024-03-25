@@ -58,10 +58,7 @@
   z-index: 1;
 }
 
-
-/* carousel related properties that will be applicable on for the current listings */
-
-
-
-
-/*End of carousel related properties for current listings */
+.arrow-icon {
+  font-size: 28px;
+  font-weight: 800;
+}

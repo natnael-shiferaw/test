@@ -99,3 +99,41 @@
       </div>
     </div>
   </section>
+
+  <!-- Our Latest Listings -->
+  <section class="container" style="margin-top: 100px;">
+    <p class="pt-5">Popular</p>
+    <div class="d-flex">
+      <h2>Our Latest Listings</h2>
+      <h6 class="ms-auto">Explore All <a href="{{ url_for('main.listings') }}" class="arrow-icon">&rarr;</a></h6>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-md-3 g-4 mt-2">
+      {% for property in latest_properties %}
+        <div class="col">
+          <div class="card border-0 rounded-0">
+            <img src="{{ property.image_link }}" class="card-img-top rounded-0" alt="Property Image">
+            <div class="card-body">
+              <p class="card-text text-muted">
+                {{ property.address }}
+              </p>
+
+              <div class="d-flex justify-content-center mt-3">
+                <p class="mx-4 text-muted card-text"><i class="fa fa-bed"></i>{{property.num_bedrooms}}</p>
+                <p class="mx-4 text-muted card-text"><i class="fa fa-bath"></i>{{property.num_bathrooms}}</p>
+                <p class="mx-4 text-muted card-text"><i class="fa-solid fa-house"></i>{{property.property_size}} Sqft</p>
+              </div>
+
+              <div class="d-flex my-2">
+                <a href="{{ url_for('main.property_details', property_id=property.id) }}" class="btn btn-1g text-white bg-dark px-4">See Details</a>
+                <h5 class="my-auto ms-auto">
+                  ${{property.price}}
+                </h5>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
