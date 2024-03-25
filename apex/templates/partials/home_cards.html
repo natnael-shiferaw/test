@@ -1,0 +1,45 @@
+<div class="col-md-6 col-lg-4">
+    <a href="{{ url_for('main.property_details', property_id=property.id) }}">
+        <div class="card-box">
+            <div class="card-img">
+                {% if property.image_link %}
+                <img src="{{ property.image_link }}" class="img-fluid property-img" alt="Property Image">
+                {% else %}
+                <img src="{{ url_for('static', filename='no-image.png') }}" class="img-fluid property-img"
+                    alt="Property Image">
+                {% endif %}
+            </div>
+
+            <div class="card-description-box">
+                <div class="row card-address-box">
+                    <span>{{ property.address }}</span>
+                </div>
+                <div class="row card-city-box">
+                    <span>{{ property.city }}</span>
+                </div>
+                <div class="row card-price-box">
+                    <span class="card-type">
+                        {% if property.listing_type == 'rent' %}
+                        For Rent -
+                        {% else %}
+                        For Sale -
+                        {% endif %}
+                    </span>
+                    <span class="card-price">
+                        ${{ property.price }} {% if property.listing_type == 'rent' %}per month{% endif %}
+                    </span>
+                </div>
+                <div class="container card-footer-box">
+                    <div class="row card-bed-box">
+                        <i class="fas fa-bed bed-icon"></i>
+                        <div class="bed-info">{{property.num_bedrooms}}</div>
+                    </div>
+                    <div class="row card-bath-box">
+                        <i class="fas fa-bath bath-icon"></i>
+                        <div class="bath-info">{{property.num_bathrooms}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
