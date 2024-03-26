@@ -9,8 +9,9 @@ def home():
     latest_properties = Property.query.order_by(Property.id.desc()).limit(3).all()
   # Fetch all the Agents in the database.
     agents = Agent.query.all()
+    all_properties = Property.query.all()
   
-    return render_template('home.html', latest_properties=latest_properties, agents=agents)
+    return render_template('home.html', latest_properties=latest_properties, agents=agents, all_properties=all_properties)
 
 @main.route("/buy")
 def buy():
