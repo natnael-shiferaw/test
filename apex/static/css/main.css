@@ -63,6 +63,11 @@
   font-weight: 800;
 }
 
+.bg-footer a {
+  text-decoration:none;
+  color: #aeaeae;
+}
+
 /* carousel for Agents */
 .MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
 .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
