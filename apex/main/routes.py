@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, Blueprint
 from apex.models import Property, Agent
 main = Blueprint('main', __name__)
 
@@ -9,9 +9,9 @@ def home():
     latest_properties = Property.query.order_by(Property.id.desc()).limit(3).all()
   # Fetch all the Agents in the database.
     agents = Agent.query.all()
-    all_properties = Property.query.all()
+
   
-    return render_template('home.html', latest_properties=latest_properties, agents=agents, all_properties=all_properties)
+    return render_template('home.html', latest_properties=latest_properties, agents=agents)
 
 @main.route("/buy")
 def buy():
@@ -38,3 +38,21 @@ def listings():
 def property_details(property_id):
     property_details = Property.query.filter_by(id=property_id).first()
     return render_template('home_property_details.html', property_details=property_details)
+
+
+@main.route("/sell")
+def sell():
+    return render_template('sell.html')
+
+@main.route("/contact")
+def contact():
+    return render_template('contact.html')
+
+@main.route("/about")
+def about():
+    return render_template('about.html')
+
+@main.route("/agent_details/<agent_id>")
+def agent_details(agent_id):
+    agent_details = Agent.query.filter_by(id=agent_id).first()
+    return render_template('agent_details.html', agent_details=agent_details)

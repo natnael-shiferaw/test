@@ -28,7 +28,7 @@
   <div id="carouselExampleAutoplaying" class="carousel slide unique-carousel">
     <div class="carousel-inner unique-carousel-inner">
       <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='home6.jpg') }}" class="d-block w-100-height unique-carousel-image" alt="image">
+        <img src="https://ideogram.ai/api/images/direct/WmaEFLspS5ukWGrKE4LmRQ.jpg" class="d-block w-100-height unique-carousel-image" alt="image">
         <div class="carousel-caption carousell unique-carousel-caption ">
 
           <h5 class="text-center">Property</h5>
@@ -140,7 +140,9 @@
               <br>
               <div class="item">
                   <div class="pad15">
-                      <img src="{{ url_for('static', filename='profile_pics/' + property_details.agent.profile_pic) }}" class="card-img-top rounded-0" alt="Agent Image" style="max-width: 100%; height: auto;">
+                      <a href="{{ url_for('main.agent_details', agent_id=property_details.agent.id) }}">
+                        <img src="{{ url_for('static', filename='profile_pics/' + property_details.agent.profile_pic) }}" class="card-img-top rounded-0" alt="Agent Image" style="max-width: 100%; height: auto;">
+                      </a>
                       <h5 class="mt-3 text-center">{{ property_details.agent.full_name }}</h5>
                       <p style="text-align: left;">
                           <span onclick="window.location.href='mailto:{{ property_details.agent.email }}';" style="cursor:pointer;"><i class="fas fa-envelope"></i> Email Me</span>
